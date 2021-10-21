@@ -9,10 +9,8 @@ while the control role is found under role directory. The control playbook runs 
 
 # Installation
   * sudo apt update
-  For ubuntu <=16.04
-  * sudo apt -y install git-hub python3-pip
-  For ubuntu >= 18.04
-  * sudo apt -y install python3-pip
+  * For ubuntu <= 16.04 : sudo apt -y install git-hub python3-pip
+  * For ubuntu >= 18.04 : sudo apt -y install python3-pip
   * sudo pip3 install ansible
   * mkdir ansible
   * cd ansible
