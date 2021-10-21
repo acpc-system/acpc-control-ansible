@@ -17,7 +17,7 @@
 
     - name: Install basic packages needed
       apt:
-              name: ["apache2","bind9","isc-dhcp-server","tftpd-hpa","git","python-pip","make","gcc","libnm-glib-dev","network-manager","firewalld"]
+              name: ["apache2","bind9","isc-dhcp-server","tftpd-hpa","git","python3-pip","make","gcc","libnm-glib-dev","network-manager","firewalld"]
               update_cache: yes
 
     - name: Deploy to /acpc/adm
