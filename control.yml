@@ -1,0 +1,10 @@
+- name: Install and Deploy the control server with its services
+  hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: no
+  roles:
+    - roles/init-env
+    - roles/configure_tftpd
+    - roles/configure_apache2
+    - roles/configure_firewalld

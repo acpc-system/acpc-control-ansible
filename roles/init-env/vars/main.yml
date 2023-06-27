@@ -1,0 +1,3 @@
+---
+# vars file for roles/init-env
+ACPC_GITHUP: "https://github.com/acpc-system/"

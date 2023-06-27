@@ -1,0 +1,76 @@
+---
+# tasks file for roles/init-env. Task that install software needed by control server
+- name: Adding ppa:ondrej/php repos
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+    update_cache: yes
+    state: present
+
+- name: Install software
+  ansible.builtin.package:
+    name:
+      - apache2
+      - isc-dhcp-server
+      - tftpd-hpa
+      - wget
+      - unzip
+      - firewalld
+      - network-manager
+      - git
+      - bind9
+      - software-properties-common
+      - php8.2-cli
+      - php8.2-common
+      - php8.2-curl
+      - php8.2-zip
+      - php8.2-gd
+      - php8.2-mysql
+      - php8.2-xml
+      - php8.2-mbstring
+      - php8.2-intl
+      - libapache2-mod-php
+    state: present
+    use: apt
+
+
+- name: Enable services at boot time
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+  with_items:
+    - apache2
+    - isc-dhcp-server
+    - tftpd-hpa
+
+- name: add hostname to hosts file
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 acpccontrol"
+    state: present
+
+- name: Create ACPC Tree
+  file:
+    path: "/{{item}}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "acpc"
+    - "acpc/adm"
+    - "acpc/prog"
+    - "acpc/tftpboot"
+
+- name: Disable ssh HostKeyChecking
+  replace:
+    path: /etc/ssh/ssh_config
+    regexp: "#   StrictHostKeyChecking ask"
+    replace: "StrictHostKeyChecking no"
+
+- name: create 10-globally-managed-devices.conf
+  file:
+    path: "/etc/NetworkManager/conf.d/10-globally-managed-devices.conf"
+    state: touch
+
+- name: Clone adm directory
+  git:
+    repo: '{{ACPC_GITHUP}}/acpc-control-adm'
+    dest: /acpc/adm

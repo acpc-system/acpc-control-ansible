@@ -1,0 +1,21 @@
+---
+# tasks file for roles/configure_apache2
+- name: Update apache2 config
+  lineinfile:
+    dest: /etc/apache2/apache2.conf
+    line: "Include /acpc/adm/etc/apache2/server.conf"
+    state: present
+  notify: Restart apache2
+
+- name: Update Apache2 default site
+  lineinfile:
+    dest: /etc/apache2/sites-enabled/000-default.conf
+    line: "Include /acpc/adm/etc/apache2/acpc.conf"
+    state: present
+  notify: Restart apache2
+
+- name: Install cgid module
+  apache2_module:
+    state: present
+    name: cgid
+  notify: Restart apache2

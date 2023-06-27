@@ -1,0 +1,15 @@
+---
+# tasks file for roles/configure_tftpd
+- name: Configure TFTPBoot directory
+  ansible.builtin.replace:
+    path: /etc/default/tftpd-hpa
+    regexp: "^TFTP_DIRECTORY=.*"
+    replace: 'TFTP_DIRECTORY=/acpc/tftpboot/'
+  notify:
+   - Restart TFTPD
+
+- name: Clone TFTP
+  git:
+    repo: '{{ACPC_GITHUP}}/acpc-control-tftpd'
+    dest: /acpc/tftpboot
+    single_branch: yes

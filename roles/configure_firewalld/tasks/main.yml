@@ -1,0 +1,14 @@
+---
+# tasks file for roles/configure_firewalld
+- name: Configuring firewalld rules
+  firewalld:
+    service: "{{item}}"
+    permanent: yes
+    immediate: true
+    state: enabled
+  with_items:
+    - http
+    - https
+    - dns
+    - dhcp
+    - tftp
