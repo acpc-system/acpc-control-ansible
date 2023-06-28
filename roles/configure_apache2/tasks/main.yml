@@ -19,3 +19,11 @@
     state: present
     name: cgid
   notify: Restart apache2
+
+- name: Change ownership of /acpc/adm/etc/
+  ansible.builtin.file:
+    path: /acpc/adm/etc/
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data

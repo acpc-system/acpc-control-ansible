@@ -1,11 +1,12 @@
 ---
 # tasks file for roles/configure_dhcpd
-- name: Change ownership of /acpc/adm/etc/dhcp/
-  ansible.builtin.file:
-    path: /acpc/adm/etc/dhcp/
-    state: directory
-    recurse: yes
-    owner: dhcpd
+#- name: Change ownership of /acpc/adm/etc/dhcp/
+#ansible.builtin.file:
+#path: /acpc/adm/etc/dhcp/
+#state: directory
+#recurse: yes
+#owner: dhcpd
+#group: dhcpd
 
 - name: Copy dhcpd.conf file
   copy:

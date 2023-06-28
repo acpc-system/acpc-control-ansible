@@ -1,2 +1,6 @@
 ---
 # handlers file for roles/init-env
+- name: Apply Netplan
+  shell: "netplan apply && touch donetplan"
+  args:
+    creates: donetplan

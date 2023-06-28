@@ -1,12 +1,12 @@
 ---
 # tasks file for roles/configure_bind
-- name: Change /acpc/adm/etc/bind ownership
-  ansible.builtin.file:
-    path: /acpc/adm/etc/bind/
-    state: directory
-    recurse: yes
-    owner: bind
-    group: bind
+#- name: Change /acpc/adm/etc/bind ownership
+#ansible.builtin.file:
+#path: /acpc/adm/etc/bind/
+#state: directory
+#recurse: yes
+#owner: bind
+#group: bind
 
 - name: Update BIND9 configuration files named.conf, include ACL
   lineinfile:

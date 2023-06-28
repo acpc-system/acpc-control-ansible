@@ -70,6 +70,27 @@
     path: "/etc/NetworkManager/conf.d/10-globally-managed-devices.conf"
     state: touch
 
+- name: Remove netplan configuration
+  file:
+    path: /etc/netplan/00-installer-config.yaml
+    state: absent
+  notify: Apply Netplan
+
+- name: Configure network connection
+  nmcli:
+    conn_name: Internal
+    ifname: enp0s3
+    type: ethernet
+    ip4: 10.0.0.2/16
+    gw4: 10.0.0.1
+    dns4:
+      - 127.0.0.1
+    dns4_search:
+      - acpc.local
+    autoconnect: true
+    state: present
+
+
 - name: Clone adm directory
   git:
     repo: '{{ACPC_GITHUP}}/acpc-control-adm'
