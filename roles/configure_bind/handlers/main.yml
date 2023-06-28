@@ -1,0 +1,6 @@
+---
+# handlers file for roles/configure_bind
+- name: Restart BIND9
+  ansible.builtin.service:
+    name: bind9
+    state: restarted

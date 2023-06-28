@@ -8,3 +8,7 @@
     - roles/configure_tftpd
     - roles/configure_apache2
     - roles/configure_firewalld
+  ### note, the configure_apparmor task must be executed before bind9, and isc-dhcp to give both process permission to access config files located in /acpc/adm/etc
+    - roles/configure_apparmor
+    - roles/configure_bind
+    - roles/configure_dhcpd

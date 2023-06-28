@@ -1,0 +1,51 @@
+---
+# tasks file for roles/configure_bind
+- name: Change /acpc/adm/etc/bind ownership
+  ansible.builtin.file:
+    path: /acpc/adm/etc/bind/
+    state: directory
+    recurse: yes
+    owner: bind
+    group: bind
+
+- name: Update BIND9 configuration files named.conf, include ACL
+  lineinfile:
+    dest: /etc/bind/named.conf
+    line: "include \"/acpc/adm/etc/bind/acls.conf\";"
+    state: present
+  notify: Restart BIND9
+
+- name: Update BIND9 configuration files named.conf.default-zones
+  lineinfile:
+    dest: /etc/bind/named.conf.default-zones
+    line: "{{ item }}"
+    state: present
+  with_items:
+    - "include \"/acpc/adm/etc/bind/acpcDomain.conf\";"
+    - "include \"/acpc/adm/etc/bind/acpcReverseDomain.conf\";"
+  notify: Restart BIND9
+
+- name: Update BIND9 configuration files named.conf.options to include dhcpupdate
+  lineinfile:
+    dest: /etc/bind/named.conf.options
+    line: "include \"/acpc/adm/etc/bind/dhcpupdate.conf\";"
+    state: present
+  notify: Restart BIND9
+
+- name: Copying empty template for forward resolv
+  copy:
+    src: /etc/bind/db.empty
+    dest: /var/lib/bind/acpc.local
+    remote_src: yes
+    owner: bind
+    group: bind
+  notify: Restart BIND9
+
+- name: Copying empty template for reverse resolv
+  copy:
+    src: /etc/bind/db.0
+    dest: /var/lib/bind/16.20.172.in-addr.arpa
+    remote_src: yes
+    owner: bind
+    group: bind
+  notify: Restart BIND9

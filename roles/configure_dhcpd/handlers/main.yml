@@ -1,0 +1,7 @@
+---
+# handlers file for roles/configure_dhcpd
+- name: Restart DHCP
+  ansible.builtin.service:
+    name: isc-dhcp-server
+    state: restarted
+

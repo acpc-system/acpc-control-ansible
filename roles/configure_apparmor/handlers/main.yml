@@ -1,0 +1,16 @@
+---
+# handlers file for roles/configure_apparmor
+- name: Restart BIND9
+  ansible.builtin.service:
+    name: bind9
+    state: restarted
+
+- name: Restart Apparmor
+  ansible.builtin.service:
+    name: apparmor
+    state: restarted
+
+- name: Restart DHCP
+  ansible.builtin.service:
+    name: apparmor
+    state: restarted

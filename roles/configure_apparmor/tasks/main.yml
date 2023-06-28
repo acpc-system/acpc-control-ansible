@@ -1,0 +1,34 @@
+---
+# tasks file for roles/configure_apparmor
+- name: Allow bind-dhcp dynamic update to write to dirs with named
+  lineinfile:
+    path: /etc/apparmor.d/usr.sbin.named
+    line: "{{item}}"
+    state: present
+    insertbefore: "}"
+  with_items:
+    - "/acpc/adm/etc/bind/dhcpupdate.conf r,"
+    - "/acpc/adm/etc/bind/acpcDomain.conf r,"
+    - "/acpc/adm/etc/bind/acpcReverseDomain.conf r,"
+    - "/acpc/adm/etc/bind/acls.conf r,"
+  notify:
+    - Restart Apparmor
+    - Restart BIND9
+
+- name: Allow bind-dhcp dynamic update to write to dirs with dhcpd
+  lineinfile:
+    path: /etc/apparmor.d/usr.sbin.dhcpd
+    line: "{{item}}"
+    state: present
+    insertbefore: "}"
+  with_items:
+    - "/acpc/adm/etc/dhcp/dhcpd.conf.options r,"
+    - "/acpc/adm/etc/bind/dhcpupdate.conf r,"
+    - "/acpc/adm/etc/dhcp/dhcpd.conf.subnet r,"
+    - "/acpc/adm/etc/dhcp/dhcpd.conf.hosts r,"
+    - "/acpc/adm/etc/dhcp/domainupdate r,"
+    - "/acpc/adm/etc/dhcp/reversedomainupdate r,"
+    - "/acpc/adm/etc/dhcp/dhcpupdate.conf r,"
+  notify:
+    - Restart Apparmor
+    - Restart DHCP
