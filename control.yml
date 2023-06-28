@@ -12,3 +12,4 @@
     - roles/configure_apparmor
     - roles/configure_bind
     - roles/configure_dhcpd
+    - roles/configure_perl
