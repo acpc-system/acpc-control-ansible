@@ -1,0 +1,30 @@
+---
+# tasks file for roles/configure_nodeexporter
+- name: Create noder_exporter user
+  ansible.builtin.user:
+    name: node_exporter
+    comment: "Prometheus node exporter"
+    shell: /bin/false 
+
+- name: Extract node exporter
+  unarchive:
+    src: "files/acpc/node_exporter-1.6.0.linux-amd64.tar.gz"
+    dest: "/opt"
+
+- name: Create node_exporter softlink
+  ansible.builtin.file:
+    src: "/opt/node_exporter-1.6.0.linux-amd64"
+    dest: "/opt/node_exporter"
+    state: link
+
+- name: Change node_exporter binary owner
+  ansible.builtin.file:
+    path: /opt/node_exporter/node_exporter
+    owner: node_exporter
+
+- name: Copy node exporter service unit
+  ansible.builtin.copy:
+    src: "files/acpc/node_exporter.service"
+    dest: /etc/systemd/system
+    owner: root
+  notify: Reload daemon

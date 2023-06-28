@@ -12,3 +12,12 @@
     - dns
     - dhcp
     - tftp
+
+- name: Configure firewalld for node-exporter port(s)
+  firewalld:
+    port: "{{item}}"
+    permanent: yes
+    immediate: true
+    state: enabled
+  with_items:
+    - 9100/tcp

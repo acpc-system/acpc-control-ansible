@@ -1,0 +1,13 @@
+[Unit]
+Description=Prometheus Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=network-online.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/opt/node_exporter/node_exporter $OPTIONS
+
+[Install]
+WantedBy=multi-user.target
