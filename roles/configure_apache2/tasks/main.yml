@@ -27,3 +27,9 @@
     recurse: yes
     owner: www-data
     group: www-data
+
+- name: Enable mod-rewrite 
+  apache2_module:
+    state: present
+    name: rewrite
+  notify: Restart apache2
