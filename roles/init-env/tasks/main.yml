@@ -30,6 +30,7 @@
       - php8.2-intl
       - libapache2-mod-php
       - libapache2-mod-security2
+      - jq
     state: present
     use: apt
 
@@ -96,3 +97,8 @@
   git:
     repo: '{{ACPC_GITHUP}}/acpc-control-adm'
     dest: /acpc/adm
+
+- name: Clone api directory
+  git:
+    repo: '{{ACPC_GITHUP}}/acpc-control-api'
+    dest: /acpc/adm/api
