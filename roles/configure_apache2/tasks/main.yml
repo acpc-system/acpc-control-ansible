@@ -14,10 +14,17 @@
     state: present
   notify: Restart apache2
 
-- name: Install cgid module
+    #### Use the url to configure mod-security
+    #https://www.linode.com/docs/guides/securing-apache2-with-modsecurity/
+    #https://www.inmotionhosting.com/support/server/apache/install-modsecurity-apache-module/
+- name: Install required apache modules
   apache2_module:
     state: present
-    name: cgid
+    name: "{{item}}"
+  with_items:
+    - cgid
+    - rewrite
+    - headers
   notify: Restart apache2
 
 - name: Change ownership of /acpc/adm/etc/
@@ -27,9 +34,3 @@
     recurse: yes
     owner: www-data
     group: www-data
-
-- name: Enable mod-rewrite 
-  apache2_module:
-    state: present
-    name: rewrite
-  notify: Restart apache2
