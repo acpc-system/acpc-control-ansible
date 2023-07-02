@@ -16,6 +16,7 @@
       - unzip
       - firewalld
       - network-manager
+      - sshpass
       - git
       - bind9
       - software-properties-common
