@@ -103,3 +103,9 @@
   git:
     repo: '{{ACPC_GITHUP}}/acpc-control-api'
     dest: /acpc/adm/api
+
+- name: Add sudeor to www-data for systemctl
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/wwwdata
+    line: "www-data	ALL=(root)	NOPASSWD:/usr/bin/systemctl"
+    create: yes
