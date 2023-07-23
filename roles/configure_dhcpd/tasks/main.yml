@@ -13,3 +13,9 @@
     src: files/acpc/dhcpd.conf
     dest: /etc/dhcp/dhcpd.conf
   notify: Restart DHCP
+
+- name: Copy doDHCP to usr/sbin
+  copy:
+    src: files/acpc/doDHCP
+    dest: /usr/bin/doDHCP
+    mode: '0755'
