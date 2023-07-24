@@ -1,31 +1,30 @@
 #!/bin/bash
 MAC="${2}"
+OIFS=${IFS}
+IFS=":"
+NEWMAC=""
+CO=1
+for O in ${MAC}
+do
+       L=$(echo ${O} | wc -c)
+       L=$[L-1]
+       if [ ${L} -eq 1 ]
+       then
+            O="0${O}"
+       fi
+       if [  ${CO} -eq 1 ]
+       then
+            NEWMAC="${O}"
+            CO=2
+       else
+            NEWMAC="${NEWMAC}:${O}"
+       fi
+done
+IFS=${OIFS}
 FILE="/acpc/adm/tmp/macs"
-CO=$(grep -c "^${MAC}$"  "${FILE}")
-
+CO=$(grep -c "^${NEWMAC}$"  "${FILE}")
 if [ ${CO} -eq 0 ]
 then
-	OIFS=${IFS}
-	IFS=":"
-	NEWMAC=""
-	CO=1
-	for O in ${MAC}
-	do
-        	L=$(echo ${O} | wc -c)
-        	L=$[L-1]
-        	if [ ${L} -eq 1 ]
-        	then
-                	O="0${O}"
-        	fi
-		if [  ${CO} -eq 1 ]
-		then
-			NEWMAC="${O}"
-			CO=2
-		else
-			NEWMAC="${NEWMAC}:${O}"
-		fi
-	done
-	IFS=${OIFS}
         echo "${NEWMAC}" >> /acpc/adm/tmp/macs
 fi
 exit 0
