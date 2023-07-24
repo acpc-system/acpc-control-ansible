@@ -1,3 +1,9 @@
 #!/bin/bash
-echo "${2}" >> /acpc/adm/tmp/macs
+MAC="${2}"
+FILE="/acpc/adm/tmp/macs"
+CO=$(grep -c "^${MAC}$"  "${FILE}")
+if [ ${CO} -eq 0 ]
+then
+	echo "${MAC}" >> /acpc/adm/tmp/macs
+fi
 exit 0
